@@ -1,25 +1,56 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { makeStyles } from '@material-ui/core/styles';
+import Header from './Header';
+import Content from './Content';
+import FilterSection from './FilterSection';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    paddingTop: theme.spacing(3),
+    paddingBottom: theme.spacing(3),
+    backgroundColor: '#d5d5d5',
+  },
+  paper: {
+    maxWidth: 800,
+    margin: 'auto',
+  },
+  filterSection: {
+    marginBottom: theme.spacing(0),
+  },
+  contentList: {
+    marginTop: theme.spacing(4),
+  },
+}));
 function App() {
+  const classes = useStyles();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Grid container direction="column">
+      <Grid item>
+        <Header />
+      </Grid>
+      <div className={classes.root}>
+        <Paper className={classes.paper}>
+          <Grid item className={classes.filterSection}>
+            <FilterSection />
+          </Grid>
+        </Paper>
+        <Paper className={classes.paper}>
+          <Grid item direction="column" container className={classes.contentList}>
+            <Grid item>
+              <Content />
+            </Grid>
+            <Grid item>
+              <Content />
+            </Grid>
+            <Grid item>
+              <Content />
+            </Grid>
+          </Grid>
+        </Paper>
+      </div>
+    </Grid>
   );
 }
 
