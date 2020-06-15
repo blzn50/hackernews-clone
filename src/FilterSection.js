@@ -26,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
   },
+  mobileFilter: {
+    padding: 0,
+    marginLeft: theme.spacing(2),
+    backgroundColor: theme.palette.grey[200],
+    width: 'auto',
+    '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+      color: theme.palette.primary.main,
+      fontWeight: 600,
+    },
+  },
   filterIcon: {
     paddingLeft: theme.spacing(2),
     minWidth: 40,
@@ -34,6 +44,26 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     [theme.breakpoints.up('sm')]: {
       display: 'none',
+    },
+  },
+  dropdownIcon: {
+    minWidth: 0,
+  },
+  dropdownMenu: {
+    '& ul': {
+      paddingTop: 0,
+      paddingBottom: 0,
+    },
+  },
+  dropdownMenuItem: {
+    paddingTop: 0,
+    paddingBottom: 0,
+    '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
+      fontWeight: 500,
+    },
+    '& .MuiListItemIcon-root': {
+      paddingLeft: 0,
+      minWidth: 40,
     },
   },
 }));
@@ -81,14 +111,14 @@ const FilterSection = () => {
           <ListItem
             button
             disableRipple
-            className={classes.filterType}
+            className={classes.mobileFilter}
             aria-haspopup="true"
             aria-controls="lock-menu"
             onClick={handleClickListItem}
           >
             <ListItemIcon className={classes.filterIcon}>{filterIcons[selectedIndex]}</ListItemIcon>
             <ListItemText primary={filterOptions[selectedIndex]}></ListItemText>
-            <ListItemIcon>
+            <ListItemIcon className={classes.dropdownIcon}>
               <ArrowDropDownIcon />
             </ListItemIcon>
           </ListItem>
@@ -99,10 +129,19 @@ const FilterSection = () => {
           keepMounted
           open={Boolean(anchorEl)}
           onClose={handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+          className={classes.dropdownMenu}
+          getContentAnchorEl={null}
         >
           {filterOptions.map((f, i) => (
-            <MenuItem key={f} selected={i === selectedIndex} onClick={(e) => handleFiltering(e, i)}>
-              <ListItemIcon className={classes.filterIcon}>{filterIcons[i]}</ListItemIcon>
+            <MenuItem
+              className={classes.dropdownMenuItem}
+              key={f}
+              selected={i === selectedIndex}
+              onClick={(e) => handleFiltering(e, i)}
+            >
+              <ListItemIcon>{filterIcons[i]}</ListItemIcon>
               <ListItemText primary={f}></ListItemText>
             </MenuItem>
           ))}
