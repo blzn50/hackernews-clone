@@ -5,6 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Header from './Header';
 import Content from './Content';
 import FilterSection from './FilterSection';
+import ContentList from './ContentList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 function App() {
   const classes = useStyles();
+
   return (
     <Grid container direction="column">
       <Grid item>
@@ -38,7 +40,8 @@ function App() {
         </Paper>
         <Paper className={classes.paper}>
           <Grid item direction="column" container className={classes.contentList}>
-            <Grid item>
+            <ContentList />
+            {/* <Grid item>
               <Content />
             </Grid>
             <Grid item>
@@ -46,7 +49,7 @@ function App() {
             </Grid>
             <Grid item>
               <Content />
-            </Grid>
+            </Grid> */}
           </Grid>
         </Paper>
       </div>

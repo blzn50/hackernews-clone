@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import WhatshotIcon from '@material-ui/icons/Whatshot';
-import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
-import NewReleasesIcon from '@material-ui/icons/NewReleases';
-import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+import WhatshotIcon from '@material-ui/icons/Whatshot';
+import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
+import NewReleasesIcon from '@material-ui/icons/NewReleases';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
+
+import { fetchPostIDs } from './actions';
 
 const useStyles = makeStyles((theme) => ({
   desktopSection: {
@@ -75,10 +76,34 @@ const FilterSection = () => {
   const classes = useStyles();
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [anchorEl, setAnchorEl] = useState(null);
+  const dispatch = useDispatch();
+
+  const fetchStories = (index) => {
+    switch (index) {
+      case 1:
+        dispatch(fetchPostIDs('beststories'));
+        break;
+      case 2:
+        dispatch(fetchPostIDs('newstories'));
+        break;
+      default:
+      case 0:
+        dispatch(fetchPostIDs('topstories'));
+        break;
+    }
+  };
+
+  useEffect(() => {
+    dispatch(fetchPostIDs());
+  }, [dispatch]);
 
   const handleFiltering = (e, i) => {
+    if (selectedIndex === i) {
+      return;
+    }
     setSelectedIndex(i);
     setAnchorEl(null);
+    fetchStories(i);
   };
 
   const handleClickListItem = (e) => {
