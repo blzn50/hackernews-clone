@@ -1,0 +1,3 @@
+export const FETCH_TOP_POSTS = 'FETCH_TOP_POSTS';
+export const FETCH_BEST_POSTS = 'FETCH_BEST_POSTS';
+export const FETCH_NEW_POSTS = 'FETCH_NEW_POSTS';
