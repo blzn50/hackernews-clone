@@ -2,16 +2,16 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from './Header';
-import Content from './Content';
-import FilterSection from './FilterSection';
-import ContentList from './ContentList';
+import Header from './components/Header';
+import FilterSection from './components/FilterSection';
+import ContentList from './components/ContentList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(3),
     paddingBottom: theme.spacing(3),
     backgroundColor: '#d5d5d5',
+    minHeight: 'calc(94vh - 52px)',
   },
   paper: {
     maxWidth: 800,

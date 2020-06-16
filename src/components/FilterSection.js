@@ -13,7 +13,7 @@ import VerticalAlignTopIcon from '@material-ui/icons/VerticalAlignTop';
 import NewReleasesIcon from '@material-ui/icons/NewReleases';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
-import { fetchPostIDs } from './actions';
+import { fetchPostIDs } from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   desktopSection: {
@@ -78,24 +78,38 @@ const FilterSection = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
 
-  const fetchStories = (index) => {
-    switch (index) {
-      case 1:
-        dispatch(fetchPostIDs('beststories'));
-        break;
-      case 2:
-        dispatch(fetchPostIDs('newstories'));
-        break;
-      default:
-      case 0:
-        dispatch(fetchPostIDs('topstories'));
-        break;
-    }
-  };
+  // const fetchStories = (index) => {
+  //   switch (index) {
+  //     case 1:
+  //       dispatch(fetchPostIDs('beststories'));
+  //       break;
+  //     case 2:
+  //       dispatch(fetchPostIDs('newstories'));
+  //       break;
+  //     default:
+  //     case 0:
+  //       dispatch(fetchPostIDs('topstories'));
+  //       break;
+  //   }
+  // };
 
   useEffect(() => {
-    dispatch(fetchPostIDs());
-  }, [dispatch]);
+    // dispatch(fetchPostIDs());
+    (() => {
+      switch (selectedIndex) {
+        case 1:
+          dispatch(fetchPostIDs('beststories'));
+          break;
+        case 2:
+          dispatch(fetchPostIDs('newstories'));
+          break;
+        default:
+        case 0:
+          dispatch(fetchPostIDs('topstories'));
+          break;
+      }
+    })();
+  }, [selectedIndex, dispatch]);
 
   const handleFiltering = (e, i) => {
     if (selectedIndex === i) {
@@ -103,7 +117,6 @@ const FilterSection = () => {
     }
     setSelectedIndex(i);
     setAnchorEl(null);
-    fetchStories(i);
   };
 
   const handleClickListItem = (e) => {

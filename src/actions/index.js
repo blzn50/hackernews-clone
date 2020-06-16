@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { FETCH_TOP_POSTS, FETCH_POSTS_ERROR } from './actionsType';
+import { FETCH_TOP_POSTS, FETCH_POSTS_ERROR, FETCH_POSTS, FETCH_SINGLE_POST } from './actionsType';
 
 const url = `https://hacker-news.firebaseio.com/v0/item/23489068.json`;
 const usr = ` https://hacker-news.firebaseio.com/v0/user/jl.json`;
@@ -24,3 +24,39 @@ export const fetchPostIDs = (type = 'topstories') => {
     }
   };
 };
+
+export const fetchPosts = (ids) => {
+  return async (dispatch) => {
+    try {
+      const posts = await Promise.all(
+        ids.map(async (id) => {
+          const p = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+          return p.data;
+        })
+      );
+      console.log(posts);
+
+      dispatch({
+        type: FETCH_POSTS,
+        payload: posts,
+      });
+    } catch (er) {
+      console.log(er);
+    }
+  };
+};
+
+/* 
+export const fetchSinglePost = (id) => {
+  return async dispatch => {
+try{
+const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+dispatch({
+  type: FETCH_SINGLE_POST,
+  payload: post.data
+})
+}catch(er){
+  dispatch(fetchError())
+}
+  }
+} */
