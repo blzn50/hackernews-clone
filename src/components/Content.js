@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import day from 'dayjs';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -34,12 +35,42 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '1.1rem',
   },
   insideContents: {
-    display: 'flex',
+    padding: '0 !important',
   },
 }));
 
 const Content = ({ content }) => {
   const classes = useStyles();
+  const [fixedDateTime, setFixedDateTime] = useState('');
+  const convertedDate = day.unix(content.time);
+  const now = day();
+
+  useEffect(() => {
+    (() => {
+      const minute = now.diff(convertedDate, 'minute');
+      const hour = now.diff(convertedDate, 'hour');
+      const day = now.diff(convertedDate, 'day');
+      if (minute < 60) {
+        if (minute < 2) {
+          setFixedDateTime(`${minute} minute`);
+        } else {
+          setFixedDateTime(`${minute} minutes`);
+        }
+      } else if (hour < 24) {
+        if (hour === 1) {
+          setFixedDateTime(`1 hour`);
+        } else {
+          setFixedDateTime(`${hour} hours`);
+        }
+      } else if (day < 365) {
+        if (day === 1) {
+          setFixedDateTime('1 day');
+        } else {
+          setFixedDateTime(`${day} days`);
+        }
+      }
+    })();
+  }, []);
 
   return (
     <Card className={classes.card}>
@@ -64,8 +95,9 @@ const Content = ({ content }) => {
             </Typography>
           </div>
           <CardContent className={classes.insideContents}>
-            <div>{content.by}</div>&middot;
-            <div>{content.time}</div>
+            <Typography variant="caption" color="textSecondary">
+              {`Posted by ${content.by} \u00b7 ${fixedDateTime} ago`}
+            </Typography>
           </CardContent>
         </div>
         <div>{content.descendants}</div>
