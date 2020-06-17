@@ -75,11 +75,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Content = ({ content }) => {
   const classes = useStyles();
+  const [alteredUrl, setAlteredUrl] = useState('');
   const [fixedDateTime, setFixedDateTime] = useState('');
-  const convertedDate = day.unix(content.time);
-  const now = day();
 
   useEffect(() => {
+    // manipulating date/time e.g. 2 minutes ago, 5 hours ago
+    const convertedDate = day.unix(content.time);
+    const now = day();
+
     (() => {
       const minute = now.diff(convertedDate, 'minute');
       const hour = now.diff(convertedDate, 'hour');
@@ -104,13 +107,29 @@ const Content = ({ content }) => {
         }
       }
     })();
-  }, []);
+
+    // url manipulator e.g. https://www.github.com/rosediii => www.github.com/rosedi...
+    (() => {
+      const { url } = content;
+      // might need to check for 'https://'
+      // TODO for later
+      const b = url.split('//')[1]; // remove 'https://'
+      const [first, ...rest] = b.split('/');
+      const d = [first, rest.length > 0 ? rest.join('/') : null];
+      const e = d[1].slice(0, 6);
+      const f = e.concat('...');
+      const g = d[0].concat(`/${f}`);
+      setAlteredUrl(g);
+    })();
+  }, [content]);
 
   return (
     <Card className={classes.card}>
       {/* <div>{content.id}</div> */}
       <div className={classes.scoreBigScreen}>
-        <Typography variant="subtitle2">{content.score} points</Typography>
+        <Typography variant="subtitle2">
+          {content.score} point{content.score < 2 ? '' : 's'}
+        </Typography>
       </div>
       <div className={classes.allContents}>
         <div>
@@ -118,8 +137,13 @@ const Content = ({ content }) => {
             <Typography variant="body2">
               <span className={classes.title}>{content.title}</span>
               {content.type === 'story' ? (
-                <Link href={content.url} className={classes.storyUrl}>
-                  {content.url}
+                <Link
+                  href={content.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={classes.storyUrl}
+                >
+                  {alteredUrl}
                   <OpenInNewRoundedIcon fontSize="small" />
                 </Link>
               ) : (

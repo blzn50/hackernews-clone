@@ -16,20 +16,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ContentList = () => {
-  const [loading, setLoading] = useState(false);
+  const classes = useStyles();
+  const loading = useSelector((state) => state.posts.loading);
   const contents = useSelector((state) => state.posts.postIDs);
   const dispatch = useDispatch();
   const sliced = useSelector((state) => state.posts.posts);
-  const classes = useStyles();
 
   useEffect(() => {
-    // setLoading(true);
     const slicedContents = contents.slice(0, 2);
     dispatch(fetchPosts(slicedContents));
   }, [dispatch, contents]);
-
-  console.log(loading);
-  console.log(contents);
 
   return (
     <div>

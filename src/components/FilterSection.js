@@ -94,7 +94,7 @@ const FilterSection = () => {
   // };
 
   useEffect(() => {
-    // dispatch(fetchPostIDs());
+    // data fetching
     (() => {
       switch (selectedIndex) {
         case 1:
