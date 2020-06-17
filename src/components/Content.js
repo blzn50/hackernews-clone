@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import day from 'dayjs';
 import { makeStyles } from '@material-ui/core/styles';
+import Hidden from '@material-ui/core/Hidden';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardActions from '@material-ui/core/CardActions';
@@ -9,7 +10,8 @@ import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
-import LaunchIcon from '@material-ui/icons/Launch';
+import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
+import { Button } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -21,21 +23,53 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '1rem',
+      padding: '0.8rem',
       backgroundColor: theme.palette.grey[100],
+      minWidth: '11vh',
     },
   },
   allContents: {
     padding: '0.4rem 0.8rem',
+    display: 'flex',
+    flex: '1 1 auto',
+    '& > div': {
+      flex: '1 1 100%',
+    },
+    '& > div:nth-child(2)': {
+      alignItems: 'center',
+      display: 'flex',
+      justifyContent: 'center',
+      flex: 1,
+    },
   },
   titleSection: {
-    display: 'inline-block',
+    display: 'flex',
+    flexWrap: 'wrap',
+    wordBreak: 'break-word',
+    overflow: 'hidden',
   },
   title: {
-    fontSize: '1.1rem',
+    fontSize: '0.9rem',
+    display: 'inline',
+    fontWeight: 500,
+  },
+  storyUrl: {
+    fontSize: 12,
+    margin: '4px 8px',
+    whiteSpace: 'nowrap',
+    '& .MuiSvgIcon-root': {
+      fontSize: '0.8rem',
+      verticalAlign: 'middle',
+      paddingLeft: 3,
+      position: 'relative',
+      bottom: 1,
+    },
   },
   insideContents: {
     padding: '0 !important',
+  },
+  commentBigScreen: {
+    color: theme.palette.grey.A700,
   },
 }));
 
@@ -81,14 +115,13 @@ const Content = ({ content }) => {
       <div className={classes.allContents}>
         <div>
           <div className={classes.titleSection}>
-            <Typography>
-              <Link className={classes.title} href={content.url} variant="h6">
-                {content.title}
-              </Link>
+            <Typography variant="body2">
+              <span className={classes.title}>{content.title}</span>
               {content.type === 'story' ? (
-                <IconButton size="small">
-                  <LaunchIcon fontSize="small" />
-                </IconButton>
+                <Link href={content.url} className={classes.storyUrl}>
+                  {content.url}
+                  <OpenInNewRoundedIcon fontSize="small" />
+                </Link>
               ) : (
                 ''
               )}
@@ -96,11 +129,26 @@ const Content = ({ content }) => {
           </div>
           <CardContent className={classes.insideContents}>
             <Typography variant="caption" color="textSecondary">
-              {`Posted by ${content.by} \u00b7 ${fixedDateTime} ago`}
+              <Hidden smUp>
+                {content.score} point{content.score < 2 ? '' : 's'} &middot;{' '}
+              </Hidden>
+              <Hidden smUp>
+                {content.descendants} comment{content.descendants < 2 ? '' : 's'} &middot;{' '}
+              </Hidden>
+              <span>Posted by {content.by} &middot; </span>
+              <span>{fixedDateTime} ago</span>
+              <span></span>
+              {/* {`\u00b7`} // middot in utf-8 format */}
             </Typography>
           </CardContent>
         </div>
-        <div>{content.descendants}</div>
+        <div>
+          <Hidden xsDown>
+            <Button className={classes.commentBigScreen} component="a" startIcon={<CommentIcon />}>
+              {content.descendants}
+            </Button>
+          </Hidden>
+        </div>
       </div>
     </Card>
   );
