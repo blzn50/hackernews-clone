@@ -1,9 +1,18 @@
-import { FETCH_TOP_POSTS, FETCH_POSTS, FETCH_LOADING } from '../actions/actionsType';
+import {
+  FETCH_TOP_POSTS,
+  FETCH_POSTS,
+  FETCH_LOADING,
+  FETCH_POSTS_ERROR,
+  FETCH_ADDITIONAL_POSTS,
+  FETCH_ADDITIONAL_POSTS_LOADING,
+} from '../actions/actionsType';
 
 const initialState = {
   postIDs: [],
   posts: [],
   loading: false,
+  error: '',
+  miniLoading: false,
 };
 
 export default (state = initialState, action) => {
@@ -13,15 +22,38 @@ export default (state = initialState, action) => {
         ...state,
         loading: true,
       };
+
+    case FETCH_ADDITIONAL_POSTS_LOADING:
+      return {
+        ...state,
+        miniLoading: true,
+      };
+
     case FETCH_TOP_POSTS:
       return Object.assign({}, state, {
         postIDs: action.payload,
       });
+
     case FETCH_POSTS:
       return Object.assign({}, state, {
         posts: action.payload,
         loading: false,
       });
+
+    case FETCH_POSTS_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        loading: false,
+      };
+
+    case FETCH_ADDITIONAL_POSTS:
+      return {
+        ...state,
+        posts: state.posts.concat(action.payload),
+        miniLoading: false,
+      };
+
     default:
       return state;
   }

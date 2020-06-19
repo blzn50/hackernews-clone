@@ -3,15 +3,12 @@ import day from 'dayjs';
 import { makeStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
 import CommentIcon from '@material-ui/icons/Comment';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
-import { Button } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -70,6 +67,7 @@ const useStyles = makeStyles((theme) => ({
   },
   commentBigScreen: {
     color: theme.palette.grey.A700,
+    fontSize: '0.8rem',
   },
 }));
 
@@ -110,16 +108,27 @@ const Content = ({ content }) => {
 
     // url manipulator e.g. https://www.github.com/rosediii => www.github.com/rosedi...
     (() => {
-      const { url } = content;
-      // might need to check for 'https://'
-      // TODO for later
-      const b = url.split('//')[1]; // remove 'https://'
-      const [first, ...rest] = b.split('/');
-      const d = [first, rest.length > 0 ? rest.join('/') : null];
-      const e = d[1].slice(0, 6);
-      const f = e.concat('...');
-      const g = d[0].concat(`/${f}`);
-      setAlteredUrl(g);
+      if (content.url) {
+        const { url } = content;
+        // might need to check for 'https://'
+        // TODO for later
+        const b = url.split('//')[1]; // remove 'https://'
+        console.log('b: ', b);
+        const [first, ...rest] = b.split('/');
+        const d = [first, rest.length > 0 ? rest.join('/') : null];
+        console.log('d: ', d);
+        if (d[1] !== null) {
+          const e = d[1].slice(0, 6);
+          console.log('e: ', e);
+          const f = e.concat('...');
+          console.log('f: ', f);
+          const g = d[0].concat(`/${f}`);
+          console.log('g: ', g);
+          setAlteredUrl(g);
+        } else {
+          setAlteredUrl(d[0]);
+        }
+      }
     })();
   }, [content]);
 
