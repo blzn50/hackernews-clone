@@ -5,6 +5,7 @@ import {
   FETCH_POSTS_ERROR,
   FETCH_ADDITIONAL_POSTS,
   FETCH_ADDITIONAL_POSTS_LOADING,
+  FETCH_END,
 } from '../actions/actionsType';
 
 const initialState = {
@@ -29,6 +30,13 @@ export default (state = initialState, action) => {
         miniLoading: true,
       };
 
+    case FETCH_END:
+      return {
+        ...state,
+        miniLoading: false,
+        postIDs: [],
+      };
+
     case FETCH_TOP_POSTS:
       return Object.assign({}, state, {
         postIDs: action.payload,
@@ -51,7 +59,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.concat(action.payload),
-        miniLoading: false,
+        // miniLoading: false,
       };
 
     default:

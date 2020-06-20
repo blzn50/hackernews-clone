@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPosts, fetchAdditionalPosts } from '../actions';
+import { fetchPosts, fetchAdditionalPosts, endFetchLoading } from '../actions';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Content from './Content';
@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(5),
+  },
+  refContainer: {
+    boxShadow:
+      '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);',
+    borderRadius: 0,
+    backgroundColor: '#fafafa',
+    padding: 1,
+    height: '100%',
   },
 }));
 
@@ -33,6 +41,8 @@ const ContentList = () => {
   // console.log('entry: ', entry);
 
   useEffect(() => {
+    setFirstValue(0);
+    setPrevY(0);
     (() => {
       const slicedContents = contents.slice(0, contentsPerPage);
       dispatch(fetchPosts(slicedContents));
@@ -45,20 +55,27 @@ const ContentList = () => {
       (() => {
         if (entry.boundingClientRect) {
           let y = entry.boundingClientRect.y;
+          // if (firstValue > contents.length) {
+          //   setFirstValue(0);
+          //   setPrevY(0);
+          //   dispatch(endFetchLoading());
+          // } else {
           if (prevY > y) {
-            const additionalSlicedContents = contents.slice(
-              firstValue,
-              firstValue + contentsPerPage
-            );
-            console.log('firstValue: ', firstValue);
+            let tempVal = firstValue;
+            const additionalSlicedContents = contents.slice(tempVal, tempVal + contentsPerPage);
             dispatch(fetchAdditionalPosts(additionalSlicedContents));
-            setFirstValue((f) => f + 13);
+            setFirstValue((f) => f + contentsPerPage);
           }
           setPrevY(y);
+          // }
         }
       })();
     })();
-  }, [firstValue, entry]);
+  }, [dispatch, entry]);
+
+  console.log('firstValue: ', firstValue);
+  console.log('posts count:', sliced.length);
+
   return (
     <div>
       {loading ? (
@@ -72,11 +89,10 @@ const ContentList = () => {
           {sliced.map((c) => (
             <Content key={c.id} content={c} />
           ))}
-          <div ref={ref}>
-            <Card style={{ backgroundColor: '#fafafa' }}>
-              <Loading type={'additional-dummy'}></Loading>
-            </Card>
-            {miniLoading ? <Loading type={'rect'}></Loading> : ''}
+          <div ref={ref} className={classes.refContainer}>
+            {/* <Card style={{ backgroundColor: '#fafafa', borderRadius: 0 }}>
+            </Card> */}
+            {miniLoading ? <Loading type={'additional-dummy'}></Loading> : ''}
           </div>
         </>
       )}

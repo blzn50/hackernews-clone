@@ -4,7 +4,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   rectLoader: {
-    margin: '40px auto',
+    margin: '39px auto',
     width: 50,
     height: 54,
     textAlign: 'center',

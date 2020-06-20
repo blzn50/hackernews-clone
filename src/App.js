@@ -38,7 +38,7 @@ function App() {
             <FilterSection />
           </Grid>
         </Paper>
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} style={{ borderRadius: 0 }}>
           <Grid item direction="column" container className={classes.contentList}>
             <ContentList />
             {/* <Grid item>

@@ -13,6 +13,7 @@ import Button from '@material-ui/core/Button';
 const useStyles = makeStyles((theme) => ({
   card: {
     display: 'flex',
+    borderRadius: 0,
   },
   scoreBigScreen: {
     display: 'none',
@@ -115,12 +116,12 @@ const Content = ({ content }) => {
         const b = url.split('//')[1]; // remove 'http(s)://'
         const [first, ...rest] = b.split('/');
         const d = [first, rest.length > 0 ? rest.join('/') : null];
-        console.log('d: ', d);
+        // console.log('d: ', d);
         if (d[1] !== null) {
           const e = d[1].slice(0, 6);
           const f = e.concat('...');
           const g = d[0].concat(`/${f}`);
-          console.log('g: ', g);
+          // console.log('g: ', g);
           setAlteredUrl(g);
         } else {
           setAlteredUrl(d[0]);

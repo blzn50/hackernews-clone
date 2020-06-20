@@ -7,6 +7,7 @@ import {
   FETCH_LOADING,
   FETCH_ADDITIONAL_POSTS,
   FETCH_ADDITIONAL_POSTS_LOADING,
+  FETCH_END,
 } from './actionsType';
 
 const url = `https://hacker-news.firebaseio.com/v0/item/23489068.json`;
@@ -22,7 +23,12 @@ const fetchError = () => {
 const fetchLoading = (type) => {
   return {
     type,
-    payload: 'loading',
+  };
+};
+
+export const endFetchLoading = () => {
+  return {
+    type: FETCH_END,
   };
 };
 
@@ -77,7 +83,7 @@ export const fetchAdditionalPosts = (ids) => {
           return p.data;
         })
       );
-      console.log(posts);
+      // console.log(posts);
 
       dispatch({
         type: FETCH_ADDITIONAL_POSTS,
