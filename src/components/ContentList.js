@@ -33,31 +33,37 @@ const ContentList = () => {
   // console.log('entry: ', entry);
 
   useEffect(() => {
-    const slicedContents = contents.slice(0, contentsPerPage);
-    dispatch(fetchPosts(slicedContents));
-    setFirstValue((f) => f + 13);
+    (() => {
+      const slicedContents = contents.slice(0, contentsPerPage);
+      dispatch(fetchPosts(slicedContents));
+      setFirstValue((f) => f + 13);
+    })();
   }, [dispatch, contents]);
 
   useEffect(() => {
     (() => {
-      if (entry.boundingClientRect) {
-        let y = entry.boundingClientRect.y;
-        if (prevY > y) {
-          const additionalSlicedContents = contents.slice(firstValue, firstValue + contentsPerPage);
-          console.log('firstValue: ', firstValue);
-          dispatch(fetchAdditionalPosts(additionalSlicedContents));
-          setFirstValue((f) => f + 13);
+      (() => {
+        if (entry.boundingClientRect) {
+          let y = entry.boundingClientRect.y;
+          if (prevY > y) {
+            const additionalSlicedContents = contents.slice(
+              firstValue,
+              firstValue + contentsPerPage
+            );
+            console.log('firstValue: ', firstValue);
+            dispatch(fetchAdditionalPosts(additionalSlicedContents));
+            setFirstValue((f) => f + 13);
+          }
+          setPrevY(y);
         }
-        setPrevY(y);
-      }
+      })();
     })();
   }, [firstValue, entry]);
-
   return (
     <div>
       {loading ? (
         <div className={classes.loadingDiv}>
-          <Loading />
+          <Loading type={'circular'} />
         </div>
       ) : error ? (
         <div>Error</div>
@@ -66,8 +72,12 @@ const ContentList = () => {
           {sliced.map((c) => (
             <Content key={c.id} content={c} />
           ))}
-          <div ref={ref} style={{ height: '3rem' }}></div>
-          {miniLoading ? <Loading></Loading> : ''}
+          <div ref={ref}>
+            <Card style={{ backgroundColor: '#fafafa' }}>
+              <Loading type={'additional-dummy'}></Loading>
+            </Card>
+            {miniLoading ? <Loading type={'rect'}></Loading> : ''}
+          </div>
         </>
       )}
     </div>

@@ -30,7 +30,7 @@ const fetchLoading = (type) => {
 export const fetchPostIDs = (type = 'topstories') => {
   return async (dispatch) => {
     try {
-      dispatch(fetchLoading(FETCH_LOADING));
+      // dispatch(fetchLoading(FETCH_LOADING));
       const postIDs = await axios.get(`https://hacker-news.firebaseio.com/v0/${type}.json`);
       dispatch({
         type: FETCH_TOP_POSTS,
@@ -46,7 +46,7 @@ export const fetchPostIDs = (type = 'topstories') => {
 export const fetchPosts = (ids) => {
   return async (dispatch) => {
     try {
-      // dispatch(fetchLoading(FETCH_LOADING));
+      dispatch(fetchLoading(FETCH_LOADING));
       const posts = await Promise.all(
         ids.map(async (id) => {
           const p = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);

@@ -112,16 +112,13 @@ const Content = ({ content }) => {
         const { url } = content;
         // might need to check for 'https://'
         // TODO for later
-        const b = url.split('//')[1]; // remove 'https://'
-        console.log('b: ', b);
+        const b = url.split('//')[1]; // remove 'http(s)://'
         const [first, ...rest] = b.split('/');
         const d = [first, rest.length > 0 ? rest.join('/') : null];
         console.log('d: ', d);
         if (d[1] !== null) {
           const e = d[1].slice(0, 6);
-          console.log('e: ', e);
           const f = e.concat('...');
-          console.log('f: ', f);
           const g = d[0].concat(`/${f}`);
           console.log('g: ', g);
           setAlteredUrl(g);
