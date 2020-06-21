@@ -14,6 +14,7 @@ const initialState = {
   loading: false,
   error: '',
   miniLoading: false,
+  endOfPage: true,
 };
 
 export default (state = initialState, action) => {
@@ -22,19 +23,21 @@ export default (state = initialState, action) => {
       return {
         ...state,
         loading: true,
+        endOfPage: false,
       };
 
     case FETCH_ADDITIONAL_POSTS_LOADING:
       return {
         ...state,
         miniLoading: true,
+        endOfPage: false,
       };
 
     case FETCH_END:
       return {
         ...state,
         miniLoading: false,
-        postIDs: [],
+        endOfPage: true,
       };
 
     case FETCH_TOP_POSTS:
@@ -59,7 +62,6 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.concat(action.payload),
-        // miniLoading: false,
       };
 
     default:
