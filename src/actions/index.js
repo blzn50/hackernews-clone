@@ -40,7 +40,7 @@ export const fetchPostIDs = (type = 'topstories') => {
       const postIDs = await axios.get(`https://hacker-news.firebaseio.com/v0/${type}.json`);
       dispatch({
         type: FETCH_TOP_POSTS,
-        payload: postIDs.data.slice(0, 80),
+        payload: postIDs.data.slice(0, 30),
       });
     } catch (error) {
       dispatch(fetchError());

@@ -39,6 +39,23 @@ const useStyles = makeStyles((theme) => ({
         transform: 'scaleY(1.0)',
       },
     },
+    '@keyframes gradient': {
+      '0%': {
+        backgroundPosition: '0% 50%',
+      },
+      '50%': {
+        backgroundPosition: '100% 50%',
+      },
+      '100%': {
+        backgroundPosition: '0% 50%',
+      },
+    },
+  },
+  dummyLoader: {
+    background: 'linear-gradient(-45deg, #f1f1f1, #bbb, #f1f1f1, #9c9c9c)',
+    backgroundSize: '400% 400%',
+    animation: 'gradient 1.5s ease infinite',
+    height: '100%',
   },
 }));
 
@@ -47,16 +64,16 @@ const Loading = ({ type }) => {
   if (type === 'circular') {
     return <CircularProgress />;
   } else if (type === 'additional-dummy') {
-    return (
-      <div className={classes.rectLoader}>
-        <div className="rect1"></div>
-        <div className="rect2"></div>
-        <div className="rect3"></div>
-        <div className="rect4"></div>
-        <div className="rect5"></div>
-      </div>
-    );
+    return <div className={classes.dummyLoader}></div>;
   }
 };
 
 export default Loading;
+
+// <div className={classes.rectLoader}>
+//   <div className="rect1"></div>
+//   <div className="rect2"></div>
+//   <div className="rect3"></div>
+//   <div className="rect4"></div>
+//   <div className="rect5"></div>
+// </div>

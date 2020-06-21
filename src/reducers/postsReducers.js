@@ -14,7 +14,7 @@ const initialState = {
   loading: false,
   error: '',
   miniLoading: false,
-  endOfPage: true,
+  endOfPage: false,
 };
 
 export default (state = initialState, action) => {
@@ -34,6 +34,7 @@ export default (state = initialState, action) => {
       };
 
     case FETCH_END:
+      console.log('end reducer');
       return {
         ...state,
         miniLoading: false,

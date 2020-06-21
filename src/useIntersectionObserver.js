@@ -20,13 +20,13 @@ const useIntersect = ({ root = null, rootMargin = '0px', threshold = 1 }) => {
 
   useEffect(() => {
     const { current: currentObserver } = observer;
-    // currentObserver.disconnect();
 
     if (node) currentObserver.observe(node);
 
     return () => {
-      console.log('observer disconnected');
-      if (endOfContents) currentObserver.disconnect();
+      if (endOfContents) {
+        currentObserver.disconnect();
+      }
     };
   }, [node, endOfContents]);
 
