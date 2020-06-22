@@ -34,7 +34,6 @@ export default (state = initialState, action) => {
       };
 
     case FETCH_END:
-      console.log('end reducer');
       return {
         ...state,
         miniLoading: false,

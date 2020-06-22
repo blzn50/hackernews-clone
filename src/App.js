@@ -5,6 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Header from './components/Header';
 import FilterSection from './components/FilterSection';
 import ContentList from './components/ContentList';
+import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -12,6 +14,9 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
     backgroundColor: '#d5d5d5',
     minHeight: 'calc(94vh - 52px)',
+  },
+  rootEOP: {
+    paddingBottom: theme.spacing(1.5),
   },
   paper: {
     maxWidth: 800,
@@ -26,13 +31,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 function App() {
   const classes = useStyles();
+  const endOfPage = useSelector((state) => state.posts.endOfPage);
 
   return (
     <Grid container direction="column">
       <Grid item>
         <Header />
       </Grid>
-      <div className={classes.root}>
+      <div className={clsx(classes.root, endOfPage && classes.rootEOP)}>
         <Paper className={classes.paper}>
           <Grid item className={classes.filterSection}>
             <FilterSection />

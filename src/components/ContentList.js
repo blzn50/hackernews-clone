@@ -18,10 +18,12 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(5),
   },
   refContainer: {
+    height: '16vh',
+    padding: 1,
     boxShadow:
       '0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);',
     borderRadius: 0,
-    height: '18vh',
+    background: '#fafafa',
   },
   refLoaderHide: {
     display: 'none',
@@ -48,6 +50,7 @@ const ContentList = () => {
   useEffect(() => {
     setFirstValue(0);
     setPrevY(0);
+
     (() => {
       const slicedContents = contents.slice(0, contentsPerPage);
       dispatch(fetchPosts(slicedContents));
@@ -59,14 +62,12 @@ const ContentList = () => {
     (() => {
       if (entry.boundingClientRect) {
         let y = entry.boundingClientRect.y;
-        console.log('second use effect');
 
         if (prevY > y) {
           if (firstValue > contents.length) {
             dispatch(endFetchLoading());
           } else {
             let tempVal = firstValue;
-            console.log('firstValue: ', tempVal);
             const additionalSlicedContents = contents.slice(tempVal, tempVal + contentsPerPage);
             dispatch(fetchAdditionalPosts(additionalSlicedContents));
             setFirstValue((f) => f + contentsPerPage);
@@ -77,8 +78,6 @@ const ContentList = () => {
     })();
   }, [dispatch, entry, firstValue, prevY, contents]);
 
-  console.log('entry', entry);
-
   return (
     <div>
       {loading ? (
@@ -86,7 +85,13 @@ const ContentList = () => {
           <Loading type={'circular'} />
         </div>
       ) : error ? (
-        <div>Error</div>
+        <div>
+          <Snackbar open={endOfPage} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+            <Alert elevation={6} variant="filled" severity="error">
+              We had some trouble reaching the hackernews server!
+            </Alert>
+          </Snackbar>
+        </div>
       ) : (
         <>
           {sliced.map((c) => (

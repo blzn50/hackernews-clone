@@ -83,7 +83,6 @@ export const fetchAdditionalPosts = (ids) => {
           return p.data;
         })
       );
-      // console.log(posts);
 
       dispatch({
         type: FETCH_ADDITIONAL_POSTS,

@@ -4,9 +4,9 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 
 const useStyles = makeStyles((theme) => ({
   rectLoader: {
-    margin: '1px auto',
+    margin: '20px auto',
     width: 50,
-    height: 54,
+    height: 74,
     textAlign: 'center',
     fontSize: 10,
     '& > div': {
@@ -64,16 +64,18 @@ const Loading = ({ type }) => {
   if (type === 'circular') {
     return <CircularProgress />;
   } else if (type === 'additional-dummy') {
-    return <div className={classes.dummyLoader}></div>;
+    return (
+      <div className={classes.rectLoader}>
+        <div className="rect1"></div>
+        <div className="rect2"></div>
+        <div className="rect3"></div>
+        <div className="rect4"></div>
+        <div className="rect5"></div>
+      </div>
+    );
   }
 };
 
 export default Loading;
 
-// <div className={classes.rectLoader}>
-//   <div className="rect1"></div>
-//   <div className="rect2"></div>
-//   <div className="rect3"></div>
-//   <div className="rect4"></div>
-//   <div className="rect5"></div>
-// </div>
+// return <div className={classes.dummyLoader}></div>;

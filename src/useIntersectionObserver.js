@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const useIntersect = ({ rootMargin = '0px', threshold = 0.5 }) => {
+const useIntersect = ({ rootMargin = '0px', threshold = 0.15 }) => {
   const [entry, setEntry] = useState({});
   const [node, setNode] = useState(null);
 
@@ -19,7 +19,6 @@ const useIntersect = ({ rootMargin = '0px', threshold = 0.5 }) => {
       }
     );
     const { current: currentObserver } = observer;
-    console.log('observer effect');
     if (node) currentObserver.observe(node);
 
     return () => currentObserver.disconnect();
