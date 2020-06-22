@@ -96,7 +96,7 @@ export const fetchAdditionalPosts = (ids) => {
 };
 
 /* 
-export const fetchSinglePost = (id) => {
+export const fetchComments = (id) => {
   return async dispatch => {
 try{
 const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
