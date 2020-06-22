@@ -43,7 +43,7 @@ const ContentList = () => {
   const [prevY, setPrevY] = useState(null);
   const [firstValue, setFirstValue] = useState(null);
 
-  const [ref, entry, setEndOfContents] = useIntersect({});
+  const [ref, entry] = useIntersect({});
 
   useEffect(() => {
     setFirstValue(0);
@@ -59,13 +59,11 @@ const ContentList = () => {
     (() => {
       if (entry.boundingClientRect) {
         let y = entry.boundingClientRect.y;
-        console.log('first:', firstValue);
-        if (prevY > y && entry.intersectionRatio === 1) {
-          if (firstValue > contents.length && entry.intersectionRatio === 1) {
-            setFirstValue(0);
+        console.log('second use effect');
+
+        if (prevY > y) {
+          if (firstValue > contents.length) {
             dispatch(endFetchLoading());
-            setEndOfContents(true);
-            console.log(' value greater than contents length');
           } else {
             let tempVal = firstValue;
             console.log('firstValue: ', tempVal);
@@ -74,16 +72,12 @@ const ContentList = () => {
             setFirstValue((f) => f + contentsPerPage);
           }
         }
-        if (y !== 0) {
-          setPrevY(y);
-        }
+        setPrevY(y);
       }
     })();
-  }, [dispatch, entry, firstValue, prevY, contents, setEndOfContents]);
+  }, [dispatch, entry, firstValue, prevY, contents]);
 
-  // // console.log('entry:', entry);
-  console.log('prevY:', prevY);
-  console.log('endOfPage: ', endOfPage);
+  console.log('entry', entry);
 
   return (
     <div>

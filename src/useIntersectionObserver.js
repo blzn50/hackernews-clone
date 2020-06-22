@@ -1,36 +1,31 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const useIntersect = ({ root = null, rootMargin = '0px', threshold = 1 }) => {
+const useIntersect = ({ rootMargin = '0px', threshold = 0.5 }) => {
   const [entry, setEntry] = useState({});
   const [node, setNode] = useState(null);
-  const [endOfContents, setEndOfContents] = useState(false);
 
-  const observer = useRef(
-    new window.IntersectionObserver(
+  const observer = useRef(null);
+
+  useEffect(() => {
+    observer.current = new window.IntersectionObserver(
       (entries) => {
-        setEntry(entries[0]);
+        if (entries[0].boundingClientRect.y !== 0) {
+          setEntry(entries[0]);
+        }
       },
       {
-        root,
         rootMargin,
         threshold,
       }
-    )
-  );
-
-  useEffect(() => {
+    );
     const { current: currentObserver } = observer;
-
+    console.log('observer effect');
     if (node) currentObserver.observe(node);
 
-    return () => {
-      if (endOfContents) {
-        currentObserver.disconnect();
-      }
-    };
-  }, [node, endOfContents]);
+    return () => currentObserver.disconnect();
+  }, [node, rootMargin, threshold]);
 
-  return [setNode, entry, setEndOfContents];
+  return [setNode, entry];
 };
 
 export default useIntersect;
