@@ -10,8 +10,8 @@ import {
   FETCH_END,
 } from './actionsType';
 
-const url = `https://hacker-news.firebaseio.com/v0/item/23489068.json`;
-const usr = ` https://hacker-news.firebaseio.com/v0/user/jl.json`;
+// const url = `https://hacker-news.firebaseio.com/v0/item/23489068.json`;
+// const usr = ` https://hacker-news.firebaseio.com/v0/user/jl.json`;
 
 const fetchError = () => {
   return {

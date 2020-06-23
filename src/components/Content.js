@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import day from 'dayjs';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import CommentIcon from '@material-ui/icons/Comment';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
-import Button from '@material-ui/core/Button';
+import { timeManipulator } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -70,43 +72,26 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.grey.A700,
     fontSize: '0.8rem',
   },
+  span: {
+    '&:hover': {
+      cursor: 'pointer',
+      textDecoration: 'underline',
+    },
+  },
 }));
+
+const TimeTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.grey[900],
+  },
+}))(Tooltip);
 
 const Content = ({ content }) => {
   const classes = useStyles();
   const [alteredUrl, setAlteredUrl] = useState('');
-  const [fixedDateTime, setFixedDateTime] = useState('');
+  const { manipulatedTime, tooltipTime } = timeManipulator(content.time);
 
   useEffect(() => {
-    // manipulating date/time e.g. 2 minutes ago, 5 hours ago
-    const convertedDate = day.unix(content.time);
-    const now = day();
-
-    (() => {
-      const minute = now.diff(convertedDate, 'minute');
-      const hour = now.diff(convertedDate, 'hour');
-      const day = now.diff(convertedDate, 'day');
-      if (minute < 60) {
-        if (minute < 2) {
-          setFixedDateTime(`${minute} minute`);
-        } else {
-          setFixedDateTime(`${minute} minutes`);
-        }
-      } else if (hour < 24) {
-        if (hour === 1) {
-          setFixedDateTime(`1 hour`);
-        } else {
-          setFixedDateTime(`${hour} hours`);
-        }
-      } else if (day < 365) {
-        if (day === 1) {
-          setFixedDateTime('1 day');
-        } else {
-          setFixedDateTime(`${day} days`);
-        }
-      }
-    })();
-
     // url manipulator e.g. https://www.github.com/rosediii => www.github.com/rosedi...
     (() => {
       if (content.url) {
@@ -166,8 +151,12 @@ const Content = ({ content }) => {
               <Hidden smUp>
                 {content.descendants} comment{content.descendants < 2 ? '' : 's'} &middot;{' '}
               </Hidden>
-              <span>Posted by {content.by} &middot; </span>
-              <span>{fixedDateTime} ago</span>
+              <span>Posted by </span>
+              <span className={classes.span}>{content.by}</span>
+              <span> &middot;</span>
+              <TimeTooltip title={tooltipTime} placement="top">
+                <span className={classes.span}>{manipulatedTime} ago</span>
+              </TimeTooltip>
               <span></span>
               {/* {`\u00b7`} // middot in utf-8 format */}
             </Typography>
