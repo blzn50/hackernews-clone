@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
-import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
+import { timeManipulator } from '../utils';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -28,11 +29,25 @@ const useStyles = makeStyles((theme) => ({
       bottom: 1,
     },
   },
+  span: {
+    '&:hover': {
+      cursor: 'pointer',
+      textDecoration: 'underline',
+    },
+  },
 }));
+
+const TimeTooltip = withStyles((theme) => ({
+  tooltip: {
+    backgroundColor: theme.palette.grey[900],
+  },
+}))(Tooltip);
 
 const ContentPage = () => {
   const classes = useStyles();
   const [item, setItem] = useState(null);
+  const [manipulatedTime, setManipulatedTime] = useState(null);
+  const [tooltipTime, setTooltipTime] = useState(null);
 
   useEffect(() => {
     (() => {
@@ -41,7 +56,10 @@ const ContentPage = () => {
         .then((data) => {
           console.log(data);
           setItem(data);
-          console.log(dayjs(data.time).toDate());
+          const t = timeManipulator(data.time);
+          setManipulatedTime(t.manipulatedTime);
+          setTooltipTime(t.tooltipTime);
+          // console.log(dayjs(data.time).toDate());
         });
     })();
   }, []);
@@ -73,11 +91,15 @@ const ContentPage = () => {
               <span>
                 {item.descendants} comment{item.descendants < 2 ? '' : 's'} &middot;{' '}
               </span>
-              <span>Posted by {item.by} &middot; </span>
-              {/* <span>{fixedDateTime} ago</span> */}
+              <span>Posted by </span>
+              <span className={classes.span}>{item.by}</span>
+              <span> &middot;</span>
+              {tooltipTime && (
+                <TimeTooltip title={tooltipTime} placement="top">
+                  <span className={classes.span}>{manipulatedTime} ago</span>
+                </TimeTooltip>
+              )}
               <span></span>
-              {/* {`\u00b7`} // middot in utf-8 format */}
-              {dayjs(item.time).toDate().toString()}
             </Typography>
           </div>
           <CardContent></CardContent>

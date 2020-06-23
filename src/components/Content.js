@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import day from 'dayjs';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Card from '@material-ui/core/Card';
