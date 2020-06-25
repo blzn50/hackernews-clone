@@ -10,6 +10,7 @@ export const timeManipulator = (time) => {
   const minute = now.diff(convertedDate, 'minute');
   const hour = now.diff(convertedDate, 'hour');
   const day = now.diff(convertedDate, 'day');
+  const year = now.diff(convertedDate, 'year');
 
   if (minute < 60) {
     if (minute < 2) {
@@ -28,6 +29,12 @@ export const timeManipulator = (time) => {
       manipulatedTime = '1 day';
     } else {
       manipulatedTime = `${day} days`;
+    }
+  } else {
+    if (year === 1) {
+      manipulatedTime = '1 year';
+    } else {
+      manipulatedTime = `${year} years`;
     }
   }
 

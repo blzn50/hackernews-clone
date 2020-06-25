@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import dayjs from 'dayjs';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
@@ -18,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
   titleSection: {
     marginTop: '1rem',
+    padding: '0 16px',
   },
   title: {
     fontSize: '1.15rem',
@@ -28,6 +28,12 @@ const useStyles = makeStyles((theme) => ({
       position: 'relative',
       bottom: 1,
     },
+  },
+  titleMoreText: {
+    color: 'rgba(50, 50, 50, 0.87)',
+    lineHeight: 'inherit',
+    borderBottom: '1px solid rgba(233, 232, 232, 0.87)',
+    paddingBottom: theme.spacing(2),
   },
   span: {
     '&:hover': {
@@ -46,12 +52,13 @@ const TimeTooltip = withStyles((theme) => ({
 const ContentPage = () => {
   const classes = useStyles();
   const [item, setItem] = useState(null);
+  const [text, setText] = useState(null);
   const [manipulatedTime, setManipulatedTime] = useState(null);
   const [tooltipTime, setTooltipTime] = useState(null);
 
   useEffect(() => {
     (() => {
-      fetch('https://hacker-news.firebaseio.com/v0/item/23489068.json')
+      fetch('https://hacker-news.firebaseio.com/v0/item/121003.json')
         .then((res) => res.json())
         .then((data) => {
           console.log(data);
@@ -59,17 +66,17 @@ const ContentPage = () => {
           const t = timeManipulator(data.time);
           setManipulatedTime(t.manipulatedTime);
           setTooltipTime(t.tooltipTime);
-          // console.log(dayjs(data.time).toDate());
         });
     })();
   }, []);
+
   if (item !== null) {
     return (
       <div>
         <Card className={classes.card}>
           <div className={classes.titleSection}>
             <Typography variant="h6" className={classes.title}>
-              {item.type === 'story' ? (
+              {item.url ? (
                 <Link
                   underline="none"
                   color="inherit"
@@ -102,7 +109,11 @@ const ContentPage = () => {
               <span></span>
             </Typography>
           </div>
-          <CardContent></CardContent>
+          <CardContent>
+            <Typography className={classes.titleMoreText} variant="body2">
+              <span dangerouslySetInnerHTML={{ __html: item.text }}></span>
+            </Typography>
+          </CardContent>
         </Card>
       </div>
     );
