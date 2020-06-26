@@ -95,17 +95,62 @@ export const fetchAdditionalPosts = (ids) => {
   };
 };
 
-/* 
-export const fetchComments = (id) => {
-  return async dispatch => {
-try{
-const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
-dispatch({
-  type: FETCH_SINGLE_POST,
-  payload: post.data
-})
-}catch(er){
-  dispatch(fetchError())
-}
-  }
-} */
+export const fetchSinglePost = (id) => {
+  return async (dispatch) => {
+    try {
+      const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+      const comments = await fetchComments(post.data.kids);
+      // console.log('comments: ', comments);
+      post.data.kids = comments;
+      console.log('post.data: ', post.data);
+
+      dispatch({
+        type: FETCH_SINGLE_POST,
+        payload: post.data,
+      });
+    } catch (er) {
+      dispatch(fetchError());
+    }
+  };
+};
+
+const fetchComments = async (idArr) => {
+  const actualRecursiveFetchComments = async (ids) => {
+    return await Promise.all(
+      ids.map(async (id) => {
+        const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
+        if (post.data.dead) {
+          post.data.text = '[flagged]';
+        }
+        if (post.data.kids) {
+          const inner = await actualRecursiveFetchComments(post.data.kids);
+          post.data.kids = inner;
+        }
+        return post.data;
+      })
+    );
+  };
+
+  const comments = await actualRecursiveFetchComments(idArr);
+  return comments;
+};
+
+// export const fetchComments = (ids) => {
+//   return async (dispatch) => {
+//     try {
+//       let index = 0;
+//       const comments = await Promise.all(
+//         ids.map(async (id) => {
+//           return post.data;
+//         })
+//       );
+
+//       dispatch({
+//         type: FETCH_SINGLE_POST,
+//         payload: post.data,
+//       });
+//     } catch (er) {
+//       dispatch(fetchError());
+//     }
+//   };
+// };

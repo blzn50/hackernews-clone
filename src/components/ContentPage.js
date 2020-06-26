@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useParams } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
@@ -8,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
 import { timeManipulator } from '../utils';
+import { fetchSinglePost, fetchComments } from '../actions';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -49,57 +52,68 @@ const TimeTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
-const ContentPage = () => {
+const ContentPage = ({ content }) => {
   const classes = useStyles();
+  const { id } = useParams();
   const [item, setItem] = useState(null);
   const [text, setText] = useState(null);
   const [manipulatedTime, setManipulatedTime] = useState(null);
   const [tooltipTime, setTooltipTime] = useState(null);
+  const comments = useSelector((state) => state.posts.comments);
+  const post = useSelector((state) => state.posts.post);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (() => {
-      fetch('https://hacker-news.firebaseio.com/v0/item/121003.json')
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-          setItem(data);
-          const t = timeManipulator(data.time);
-          setManipulatedTime(t.manipulatedTime);
-          setTooltipTime(t.tooltipTime);
-        });
-    })();
-  }, []);
+      // fetch('https://hacker-news.firebaseio.com/v0/item/121003.json')
+      //   .then((res) => res.json())
+      //   .then((data) => {
+      //     console.log(data);
+      //     setItem(data);
+      //     const t = timeManipulator(data.time);
+      //     setManipulatedTime(t.manipulatedTime);
+      //     setTooltipTime(t.tooltipTime);
+      //   });
 
-  if (item !== null) {
+      if (content) {
+        // dispatch(fetchComments(content.id))
+        console.log('content');
+      } else {
+        dispatch(fetchSinglePost(id));
+      }
+    })();
+  }, [dispatch, content, id]);
+
+  if (post !== null) {
     return (
       <div>
         <Card className={classes.card}>
           <div className={classes.titleSection}>
             <Typography variant="h6" className={classes.title}>
-              {item.url ? (
+              {post.url ? (
                 <Link
                   underline="none"
                   color="inherit"
-                  href={item.url}
+                  href={post.url}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <span>{item.title}</span>
+                  <span>{post.title}</span>
                   <OpenInNewRoundedIcon fontSize="small" />
                 </Link>
               ) : (
-                <span>{item.title}</span>
+                <span>{post.title}</span>
               )}
             </Typography>
             <Typography variant="caption" color="textSecondary">
               <span>
-                {item.score} point{item.score < 2 ? '' : 's'} &middot;{' '}
+                {post.score} point{post.score < 2 ? '' : 's'} &middot;{' '}
               </span>
               <span>
-                {item.descendants} comment{item.descendants < 2 ? '' : 's'} &middot;{' '}
+                {post.descendants} comment{post.descendants < 2 ? '' : 's'} &middot;{' '}
               </span>
               <span>Posted by </span>
-              <span className={classes.span}>{item.by}</span>
+              <span className={classes.span}>{post.by}</span>
               <span> &middot;</span>
               {tooltipTime && (
                 <TimeTooltip title={tooltipTime} placement="top">
@@ -111,8 +125,9 @@ const ContentPage = () => {
           </div>
           <CardContent>
             <Typography className={classes.titleMoreText} variant="body2">
-              <span dangerouslySetInnerHTML={{ __html: item.text }}></span>
+              <span dangerouslySetInnerHTML={{ __html: post.text }}></span>
             </Typography>
+            <Typography variant="body2"></Typography>
           </CardContent>
         </Card>
       </div>

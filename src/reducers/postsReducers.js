@@ -6,11 +6,13 @@ import {
   FETCH_ADDITIONAL_POSTS,
   FETCH_ADDITIONAL_POSTS_LOADING,
   FETCH_END,
+  FETCH_SINGLE_POST,
 } from '../actions/actionsType';
 
 const initialState = {
   postIDs: [],
   posts: [],
+  post: null,
   loading: false,
   error: '',
   miniLoading: false,
@@ -62,6 +64,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         posts: state.posts.concat(action.payload),
+      };
+
+    case FETCH_SINGLE_POST:
+      return {
+        ...state,
+        post: action.payload,
       };
 
     default:
