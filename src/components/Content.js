@@ -6,10 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
 import CommentIcon from '@material-ui/icons/Comment';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
 import { timeManipulator } from '../utils';
+import TimeTooltip from './TimeTooltip';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -78,12 +78,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-
-const TimeTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: theme.palette.grey[900],
-  },
-}))(Tooltip);
 
 const Content = ({ content }) => {
   const classes = useStyles();

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Tooltip from '@material-ui/core/Tooltip';
 import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -11,6 +10,8 @@ import Hidden from '@material-ui/core/Hidden';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
 import { timeManipulator } from '../utils';
 import { fetchSinglePost, fetchComments } from '../actions';
+import TimeTooltip from './TimeTooltip';
+import Comment from './Comment';
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -46,46 +47,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TimeTooltip = withStyles((theme) => ({
-  tooltip: {
-    backgroundColor: theme.palette.grey[900],
-  },
-}))(Tooltip);
-
-const comment = (ids) => {
-  return ids.map((id) => {
-    return (
-      <>
-        <div key={id.id} dangerouslySetInnerHTML={{ __html: id.text }}></div>
-        {id.kids && comment(id.kids)}
-      </>
-    );
-  });
-};
-
 const ContentPage = ({ content }) => {
   const classes = useStyles();
   const { id } = useParams();
-  const [item, setItem] = useState(null);
-  const [text, setText] = useState(null);
-  const [manipulatedTime, setManipulatedTime] = useState(null);
-  const [tooltipTime, setTooltipTime] = useState(null);
-  const comments = useSelector((state) => state.posts.comments);
   const post = useSelector((state) => state.posts.post);
   const dispatch = useDispatch();
 
   useEffect(() => {
     (() => {
-      // fetch('https://hacker-news.firebaseio.com/v0/item/121003.json')
-      //   .then((res) => res.json())
-      //   .then((data) => {
-      //     console.log(data);
-      //     setItem(data);
-      //     const t = timeManipulator(data.time);
-      //     setManipulatedTime(t.manipulatedTime);
-      //     setTooltipTime(t.tooltipTime);
-      //   });
-
       if (content) {
         // dispatch(fetchComments(content.id))
         console.log('content');
@@ -138,7 +107,8 @@ const ContentPage = ({ content }) => {
             <Typography className={classes.titleMoreText} variant="body2">
               <span dangerouslySetInnerHTML={{ __html: post.text }}></span>
             </Typography>
-            <Typography variant="body2">{comment(post.kids)}</Typography>
+            <Comment comments={post.kids} />
+            {/* <Typography variant="body2">{comment(post.kids)}</Typography> */}
           </CardContent>
         </Card>
       </div>
