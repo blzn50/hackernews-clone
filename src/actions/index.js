@@ -115,24 +115,34 @@ export const fetchSinglePost = (id) => {
 };
 
 const fetchComments = async (idArr) => {
+  let commentsArr = [];
   const actualRecursiveFetchComments = async (ids) => {
-    return await Promise.all(
-      ids.map(async (id) => {
+    return await ids.reduce(async (resultArr, id) => {
+      try {
         const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
         if (post.data.dead) {
           post.data.text = '[flagged]';
         }
+
         if (post.data.kids) {
           const inner = await actualRecursiveFetchComments(post.data.kids);
           post.data.kids = inner;
         }
-        return post.data;
-      })
-    );
+
+        if (!post.data.deleted) {
+          const res = await resultArr;
+          res.push(post.data);
+        }
+
+        return resultArr;
+      } catch (error) {
+        console.log(error);
+      }
+    }, Promise.resolve([]));
   };
 
-  const comments = await actualRecursiveFetchComments(idArr);
-  return comments;
+  await Promise.all(await actualRecursiveFetchComments(idArr).then((res) => (commentsArr = res)));
+  return commentsArr;
 };
 
 // export const fetchComments = (ids) => {

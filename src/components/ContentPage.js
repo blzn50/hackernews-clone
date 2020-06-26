@@ -52,6 +52,17 @@ const TimeTooltip = withStyles((theme) => ({
   },
 }))(Tooltip);
 
+const comment = (ids) => {
+  return ids.map((id) => {
+    return (
+      <>
+        <div key={id.id} dangerouslySetInnerHTML={{ __html: id.text }}></div>
+        {id.kids && comment(id.kids)}
+      </>
+    );
+  });
+};
+
 const ContentPage = ({ content }) => {
   const classes = useStyles();
   const { id } = useParams();
@@ -114,12 +125,12 @@ const ContentPage = ({ content }) => {
               </span>
               <span>Posted by </span>
               <span className={classes.span}>{post.by}</span>
-              <span> &middot;</span>
-              {tooltipTime && (
-                <TimeTooltip title={tooltipTime} placement="top">
-                  <span className={classes.span}>{manipulatedTime} ago</span>
-                </TimeTooltip>
-              )}
+              <span> &middot; </span>
+              <TimeTooltip title={timeManipulator(post.time).tooltipTime} placement="top">
+                <span className={classes.span}>
+                  {timeManipulator(post.time).manipulatedTime} ago
+                </span>
+              </TimeTooltip>
               <span></span>
             </Typography>
           </div>
@@ -127,7 +138,7 @@ const ContentPage = ({ content }) => {
             <Typography className={classes.titleMoreText} variant="body2">
               <span dangerouslySetInnerHTML={{ __html: post.text }}></span>
             </Typography>
-            <Typography variant="body2"></Typography>
+            <Typography variant="body2">{comment(post.kids)}</Typography>
           </CardContent>
         </Card>
       </div>
