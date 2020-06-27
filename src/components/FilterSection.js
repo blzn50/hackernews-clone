@@ -78,23 +78,7 @@ const FilterSection = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const dispatch = useDispatch();
 
-  // const fetchStories = (index) => {
-  //   switch (index) {
-  //     case 1:
-  //       dispatch(fetchPostIDs('beststories'));
-  //       break;
-  //     case 2:
-  //       dispatch(fetchPostIDs('newstories'));
-  //       break;
-  //     default:
-  //     case 0:
-  //       dispatch(fetchPostIDs('topstories'));
-  //       break;
-  //   }
-  // };
-
   useEffect(() => {
-    // data fetching
     (() => {
       switch (selectedIndex) {
         case 1:

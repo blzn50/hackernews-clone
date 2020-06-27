@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '16px 0',
   },
   caption: {
-    fontSize: '0.7rem',
+    fontSize: '0.67rem',
     color: '#747474',
   },
   span: {
@@ -22,10 +22,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '0.865rem',
     '& p': {
       margin: '8px 0',
+      lineHeight: '1.28',
     },
   },
   innerComment: {
     paddingLeft: theme.spacing(3),
+    borderLeft: '2px solid #beb9b9',
   },
 }));
 

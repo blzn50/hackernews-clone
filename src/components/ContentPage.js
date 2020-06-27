@@ -8,12 +8,18 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Hidden from '@material-ui/core/Hidden';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
+import ForumIcon from '@material-ui/icons/Forum';
 import { timeManipulator } from '../utils';
 import { fetchSinglePost, fetchComments } from '../actions';
 import TimeTooltip from './TimeTooltip';
 import Comment from './Comment';
 
 const useStyles = makeStyles((theme) => ({
+  contentDiv: {
+    backgroundColor: '#d5d5d5',
+    paddingTop: '2rem',
+    minHeight: 'calc(96vh - 52px)',
+  },
   card: {
     maxWidth: 800,
     margin: 'auto',
@@ -45,6 +51,16 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'underline',
     },
   },
+  emptyComments: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: '1rem',
+    padding: '5rem',
+    color: '#a1a1a1',
+    fontSize: '1.05rem',
+  },
 }));
 
 const ContentPage = ({ content }) => {
@@ -66,7 +82,7 @@ const ContentPage = ({ content }) => {
 
   if (post !== null) {
     return (
-      <div>
+      <div className={classes.contentDiv}>
         <Card className={classes.card}>
           <div className={classes.titleSection}>
             <Typography variant="h6" className={classes.title}>
@@ -107,14 +123,36 @@ const ContentPage = ({ content }) => {
             <Typography className={classes.titleMoreText} variant="body2">
               <span dangerouslySetInnerHTML={{ __html: post.text }}></span>
             </Typography>
-            <Comment comments={post.kids} />
-            {/* <Typography variant="body2">{comment(post.kids)}</Typography> */}
+            {post.kids ? (
+              <Comment comments={post.kids} />
+            ) : (
+              <Typography variant="h6" className={classes.emptyComments}>
+                <ForumIcon /> No Comments Yet
+              </Typography>
+            )}
           </CardContent>
         </Card>
       </div>
     );
   } else {
-    return <div>...</div>;
+    return (
+      <div className={classes.contentDiv}>
+        <Card className={classes.card}>
+          <div className={classes.titleSection}>
+            <Typography variant="h6" className={classes.title}>
+              <span>Title</span>
+            </Typography>
+            <Typography variant="caption" color="textSecondary">
+              <span>METADATA</span>
+            </Typography>
+          </div>
+          <CardContent>
+            <Typography className={classes.titleMoreText} variant="body2"></Typography>
+            <Typography>Comments</Typography>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
 };
 

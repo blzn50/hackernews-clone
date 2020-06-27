@@ -2,7 +2,6 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import Header from './Header';
 import FilterSection from './FilterSection';
 import ContentList from './ContentList';
 import clsx from 'clsx';
@@ -34,23 +33,18 @@ function Home() {
   const endOfPage = useSelector((state) => state.posts.endOfPage);
 
   return (
-    <Grid container direction="column">
-      <Grid item>
-        <Header />
-      </Grid>
-      <div className={clsx(classes.root, endOfPage && classes.rootEOP)}>
-        <Paper className={classes.paper}>
-          <Grid item className={classes.filterSection}>
-            <FilterSection />
-          </Grid>
-        </Paper>
-        <Paper className={classes.paper} style={{ borderRadius: 0 }}>
-          <Grid item direction="column" container className={classes.contentList}>
-            <ContentList />
-          </Grid>
-        </Paper>
-      </div>
-    </Grid>
+    <div className={clsx(classes.root, endOfPage && classes.rootEOP)}>
+      <Paper className={classes.paper}>
+        <Grid item className={classes.filterSection}>
+          <FilterSection />
+        </Grid>
+      </Paper>
+      <Paper className={classes.paper} style={{ borderRadius: 0 }}>
+        <Grid item direction="column" container className={classes.contentList}>
+          <ContentList />
+        </Grid>
+      </Paper>
+    </div>
   );
 }
 

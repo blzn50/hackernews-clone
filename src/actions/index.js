@@ -99,9 +99,10 @@ export const fetchSinglePost = (id) => {
   return async (dispatch) => {
     try {
       const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
-      const comments = await fetchComments(post.data.kids);
-      // console.log('comments: ', comments);
-      post.data.kids = comments;
+      if (post.data.kids) {
+        const comments = await fetchComments(post.data.kids);
+        post.data.kids = comments;
+      }
       console.log('post.data: ', post.data);
 
       dispatch({
