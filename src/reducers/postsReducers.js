@@ -21,7 +21,6 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_LOADING:
-      console.log('in reducer');
       return {
         ...state,
         loading: true,

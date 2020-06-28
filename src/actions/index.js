@@ -59,7 +59,6 @@ export const fetchPosts = (ids) => {
           return p.data;
         })
       );
-      console.log(posts);
 
       dispatch({
         type: FETCH_POSTS,
@@ -104,7 +103,6 @@ export const fetchSinglePost = (id) => {
         const comments = await fetchComments(post.data.kids);
         post.data.kids = comments;
       }
-      console.log('post.data: ', post.data);
 
       dispatch({
         type: FETCH_SINGLE_POST,

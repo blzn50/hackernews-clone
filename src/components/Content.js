@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Hidden from '@material-ui/core/Hidden';
 import Card from '@material-ui/core/Card';
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       alignItems: 'center',
       padding: '0.8rem',
       backgroundColor: theme.palette.grey[100],
-      minWidth: '11vh',
+      minWidth: '5rem',
     },
   },
   allContents: {
@@ -40,6 +41,9 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'center',
       flex: 1,
     },
+    [theme.breakpoints.down('sm')]: {
+      padding: '1rem',
+    },
   },
   titleSection: {
     display: 'flex',
@@ -51,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '0.9rem',
     display: 'inline',
     fontWeight: 500,
+    color: 'inherit',
   },
   storyUrl: {
     fontSize: 12,
@@ -67,14 +72,38 @@ const useStyles = makeStyles((theme) => ({
   insideContents: {
     padding: '0 !important',
   },
+  mobileScoreComments: {
+    fontSize: '0.8rem',
+  },
   commentBigScreen: {
     color: theme.palette.grey.A700,
     fontSize: '0.8rem',
+  },
+  commentLink: {
+    color: 'inherit',
+    '& .MuiSvgIcon-root': {
+      fontSize: '1rem',
+      verticalAlign: 'middle',
+      paddingLeft: 3,
+      paddingRight: 3,
+      position: 'relative',
+      bottom: 1,
+    },
   },
   span: {
     '&:hover': {
       cursor: 'pointer',
       textDecoration: 'underline',
+    },
+  },
+  middot: {
+    '&::after': {
+      content: "'\\2022'",
+      color: 'rgba(0, 0, 0, 0.54)',
+      display: 'inline-block',
+      margin: '0 4px',
+      position: 'relative',
+      verticalAlign: 'middle',
     },
   },
 }));
@@ -110,7 +139,6 @@ const Content = ({ content }) => {
 
   return (
     <Card className={classes.card}>
-      {/* <div>{content.id}</div> */}
       <div className={classes.scoreBigScreen}>
         <Typography variant="subtitle2">
           {content.score} point{content.score < 2 ? '' : 's'}
@@ -118,9 +146,21 @@ const Content = ({ content }) => {
       </div>
       <div className={classes.allContents}>
         <div>
+          <Hidden smUp>
+            <Typography variant="caption" color="textSecondary">
+              <span>Posted by </span>
+              <span className={classes.span}>{content.by}</span>
+              <span className={classes.middot}></span>
+              <TimeTooltip title={tooltipTime} placement="top">
+                <span className={classes.span}>{manipulatedTime} ago</span>
+              </TimeTooltip>
+            </Typography>
+          </Hidden>
           <div className={classes.titleSection}>
             <Typography variant="body2">
-              <span className={classes.title}>{content.title}</span>
+              <Link className={classes.title} to={`/item/${content.id}`} component={RouterLink}>
+                {content.title}
+              </Link>
               {content.type === 'story' ? (
                 <Link
                   href={content.url}
@@ -139,25 +179,40 @@ const Content = ({ content }) => {
           <CardContent className={classes.insideContents}>
             <Typography variant="caption" color="textSecondary">
               <Hidden smUp>
-                {content.score} point{content.score < 2 ? '' : 's'} &middot;{' '}
+                <span className={classes.mobileScoreComments}>
+                  <span style={{ paddingRight: 4 }}>
+                    {content.score} point{content.score < 2 ? '' : 's'}
+                  </span>
+                  <span className={classes.middot}></span>
+                  <Link
+                    to={`/item/${content.id}`}
+                    component={RouterLink}
+                    className={classes.commentLink}
+                  >
+                    <CommentIcon fontSize="small" />
+                    {content.descendants}
+                  </Link>
+                </span>
               </Hidden>
-              <Hidden smUp>
-                {content.descendants} comment{content.descendants < 2 ? '' : 's'} &middot;{' '}
+              <Hidden only="xs">
+                <span>Posted by </span>
+                <span className={classes.span}>{content.by}</span>
+                <span className={classes.middot}></span>
+                <TimeTooltip title={tooltipTime} placement="top">
+                  <span className={classes.span}>{manipulatedTime} ago</span>
+                </TimeTooltip>
               </Hidden>
-              <span>Posted by </span>
-              <span className={classes.span}>{content.by}</span>
-              <span> &middot;</span>
-              <TimeTooltip title={tooltipTime} placement="top">
-                <span className={classes.span}>{manipulatedTime} ago</span>
-              </TimeTooltip>
-              <span></span>
-              {/* {`\u00b7`} // middot in utf-8 format */}
             </Typography>
           </CardContent>
         </div>
         <div>
           <Hidden xsDown>
-            <Button className={classes.commentBigScreen} component="a" startIcon={<CommentIcon />}>
+            <Button
+              to={`/item/${content.id}`}
+              className={classes.commentBigScreen}
+              component={RouterLink}
+              startIcon={<CommentIcon />}
+            >
               {content.descendants}
             </Button>
           </Hidden>

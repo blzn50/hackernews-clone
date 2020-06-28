@@ -29,9 +29,11 @@ const useStyles = makeStyles((theme) => ({
   },
   mobileFilter: {
     padding: 0,
+    paddingRight: 10,
     marginLeft: theme.spacing(2),
     backgroundColor: theme.palette.grey[200],
     width: 'auto',
+    borderRadius: 4,
     '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
       color: theme.palette.primary.main,
       fontWeight: 600,
