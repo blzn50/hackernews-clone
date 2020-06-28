@@ -12,7 +12,6 @@ import {
 const initialState = {
   postIDs: [],
   posts: [],
-  post: null,
   loading: false,
   error: '',
   miniLoading: false,
@@ -22,6 +21,7 @@ const initialState = {
 export default (state = initialState, action) => {
   switch (action.type) {
     case FETCH_LOADING:
+      console.log('in reducer');
       return {
         ...state,
         loading: true,
@@ -70,6 +70,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         post: action.payload,
+        loading: false,
       };
 
     default:

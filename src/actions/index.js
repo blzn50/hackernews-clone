@@ -98,6 +98,7 @@ export const fetchAdditionalPosts = (ids) => {
 export const fetchSinglePost = (id) => {
   return async (dispatch) => {
     try {
+      dispatch(fetchLoading(FETCH_LOADING));
       const post = await axios.get(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
       if (post.data.kids) {
         const comments = await fetchComments(post.data.kids);
@@ -145,23 +146,3 @@ const fetchComments = async (idArr) => {
   await Promise.all(await actualRecursiveFetchComments(idArr).then((res) => (commentsArr = res)));
   return commentsArr;
 };
-
-// export const fetchComments = (ids) => {
-//   return async (dispatch) => {
-//     try {
-//       let index = 0;
-//       const comments = await Promise.all(
-//         ids.map(async (id) => {
-//           return post.data;
-//         })
-//       );
-
-//       dispatch({
-//         type: FETCH_SINGLE_POST,
-//         payload: post.data,
-//       });
-//     } catch (er) {
-//       dispatch(fetchError());
-//     }
-//   };
-// };
