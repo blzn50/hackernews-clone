@@ -1,6 +1,6 @@
 {
   "name": "hn-clone-reddit",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "author": "Naren Lama",
   "dependencies": {
