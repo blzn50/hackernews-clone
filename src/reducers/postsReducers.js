@@ -1,5 +1,5 @@
 import {
-  FETCH_TOP_POSTS,
+  FETCH_POST_IDS,
   FETCH_POSTS,
   FETCH_LOADING,
   FETCH_POSTS_ERROR,
@@ -13,6 +13,7 @@ import {
 const initialState = {
   postIDs: [],
   posts: [],
+  fetchType: 0,
   loading: false,
   error: '',
   miniLoading: false,
@@ -28,6 +29,7 @@ export default (state = initialState, action) => {
         loading: true,
         endOfPage: false,
         refClose: false,
+        post: null,
       };
 
     case FETCH_ADDITIONAL_POSTS_LOADING:
@@ -51,9 +53,10 @@ export default (state = initialState, action) => {
         endOfPage: false,
       };
 
-    case FETCH_TOP_POSTS:
+    case FETCH_POST_IDS:
       return Object.assign({}, state, {
         postIDs: action.payload,
+        fetchType: action.mode,
       });
 
     case FETCH_POSTS:

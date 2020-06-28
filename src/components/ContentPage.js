@@ -1,16 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import Hidden from '@material-ui/core/Hidden';
 import OpenInNewRoundedIcon from '@material-ui/icons/OpenInNewRounded';
 import ForumIcon from '@material-ui/icons/Forum';
 import { timeManipulator } from '../utils';
-import { fetchSinglePost, fetchComments } from '../actions';
+import { fetchSinglePost } from '../actions';
 import TimeTooltip from './TimeTooltip';
 import Comment from './Comment';
 import Loading from './Loading';
@@ -64,6 +63,16 @@ const useStyles = makeStyles((theme) => ({
       textDecoration: 'underline',
     },
   },
+  middot: {
+    '&::after': {
+      content: "'\\2022'",
+      color: 'rgba(0, 0, 0, 0.54)',
+      display: 'inline-block',
+      margin: '0 4px',
+      position: 'relative',
+      verticalAlign: 'middle',
+    },
+  },
   emptyComments: {
     display: 'flex',
     flexDirection: 'column',
@@ -92,6 +101,16 @@ const ContentPage = () => {
         <div className={classes.contentDiv}>
           <Card className={classes.card}>
             <div className={classes.titleSection}>
+              <Typography variant="caption" color="textSecondary">
+                <span>Posted by </span>
+                <span className={classes.span}>{post.by}</span>
+                <span className={classes.middot}></span>
+                <TimeTooltip title={timeManipulator(post.time).tooltipTime} placement="top">
+                  <span className={classes.span}>
+                    {timeManipulator(post.time).manipulatedTime} ago
+                  </span>
+                </TimeTooltip>
+              </Typography>
               <Typography variant="h6" className={classes.title}>
                 {post.url ? (
                   <Link
@@ -108,22 +127,14 @@ const ContentPage = () => {
                   <span>{post.title}</span>
                 )}
               </Typography>
-              <Typography variant="caption" color="textSecondary">
+              <Typography variant="caption" color="textSecondary" style={{ fontSize: '0.8rem' }}>
                 <span>
-                  {post.score} point{post.score < 2 ? '' : 's'} &middot;{' '}
+                  {post.score} point{post.score < 2 ? '' : 's'}
                 </span>
+                <span className={classes.middot}></span>
                 <span>
-                  {post.descendants} comment{post.descendants < 2 ? '' : 's'} &middot;{' '}
+                  {post.descendants} comment{post.descendants < 2 ? '' : 's'}
                 </span>
-                <span>Posted by </span>
-                <span className={classes.span}>{post.by}</span>
-                <span> &middot; </span>
-                <TimeTooltip title={timeManipulator(post.time).tooltipTime} placement="top">
-                  <span className={classes.span}>
-                    {timeManipulator(post.time).manipulatedTime} ago
-                  </span>
-                </TimeTooltip>
-                <span></span>
               </Typography>
               <Typography className={classes.titleMoreText} variant="body2">
                 <span dangerouslySetInnerHTML={{ __html: post.text }}></span>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {
-  FETCH_TOP_POSTS,
+  FETCH_POST_IDS,
   FETCH_POSTS_ERROR,
   FETCH_POSTS,
   FETCH_SINGLE_POST,
@@ -14,6 +14,22 @@ import {
 // const url = `https://hacker-news.firebaseio.com/v0/item/23489068.json`;
 // const usr = ` https://hacker-news.firebaseio.com/v0/user/jl.json`;
 
+const switchMode = (type) => {
+  let mode = 0;
+  switch (type) {
+    case 'beststories':
+      mode = 1;
+      break;
+    case 'newstories':
+      mode = 2;
+      break;
+    default:
+    case 'topstories':
+      mode = 0;
+      break;
+  }
+  return mode;
+};
 const fetchError = () => {
   return {
     type: FETCH_POSTS_ERROR,
@@ -43,12 +59,13 @@ export const endEOP = () => {
 export const fetchPostIDs = (type = 'topstories') => {
   return async (dispatch) => {
     try {
-      // dispatch(fetchLoading(FETCH_LOADING));
       const postIDs = await axios.get(`https://hacker-news.firebaseio.com/v0/${type}.json`);
+
       dispatch({
-        type: FETCH_TOP_POSTS,
+        type: FETCH_POST_IDS,
         // payload: postIDs.data.slice(0, 30),
         payload: postIDs.data,
+        mode: switchMode(type),
       });
     } catch (error) {
       dispatch(fetchError());
@@ -83,6 +100,9 @@ export const fetchPosts = (ids) => {
 export const fetchAdditionalPosts = (ids) => {
   return async (dispatch) => {
     try {
+      // gets called immediately sometimes. need to figure out and fix
+      // console.log('in additional fetch action');
+
       dispatch(fetchLoading(FETCH_ADDITIONAL_POSTS_LOADING));
       const posts = await Promise.all(
         ids.map(async (id) => {

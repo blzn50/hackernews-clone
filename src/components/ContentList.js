@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link as RouterLink } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
 import { fetchPosts, fetchAdditionalPosts, endFetchLoading, endEOP } from '../actions';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';

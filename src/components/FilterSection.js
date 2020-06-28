@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
@@ -76,8 +76,9 @@ const filterIcons = [<VerticalAlignTopIcon />, <WhatshotIcon />, <NewReleasesIco
 
 const FilterSection = () => {
   const classes = useStyles();
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useState(useSelector((state) => state.posts.fetchType));
   const [anchorEl, setAnchorEl] = useState(null);
+  // const fetchType = useSelector(state => state.posts.fetchType)
   const dispatch = useDispatch();
 
   useEffect(() => {
