@@ -8,6 +8,7 @@ import {
   FETCH_ADDITIONAL_POSTS,
   FETCH_ADDITIONAL_POSTS_LOADING,
   FETCH_END,
+  CLOSE_EOP_SNACKBAR,
 } from './actionsType';
 
 // const url = `https://hacker-news.firebaseio.com/v0/item/23489068.json`;
@@ -29,6 +30,12 @@ const fetchLoading = (type) => {
 export const endFetchLoading = () => {
   return {
     type: FETCH_END,
+  };
+};
+
+export const endEOP = () => {
+  return {
+    type: CLOSE_EOP_SNACKBAR,
   };
 };
 

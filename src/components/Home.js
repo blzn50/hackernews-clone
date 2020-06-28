@@ -30,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Home() {
   const classes = useStyles();
-  const endOfPage = useSelector((state) => state.posts.endOfPage);
+  const refClose = useSelector((state) => state.posts.refClose);
 
   return (
-    <div className={clsx(classes.root, endOfPage && classes.rootEOP)}>
+    <div className={clsx(classes.root, refClose && classes.rootEOP)}>
       <Paper className={classes.paper}>
         <Grid item className={classes.filterSection}>
           <FilterSection />

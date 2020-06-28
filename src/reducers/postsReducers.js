@@ -7,6 +7,7 @@ import {
   FETCH_ADDITIONAL_POSTS_LOADING,
   FETCH_END,
   FETCH_SINGLE_POST,
+  CLOSE_EOP_SNACKBAR,
 } from '../actions/actionsType';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
   error: '',
   miniLoading: false,
   endOfPage: false,
+  refClose: false,
 };
 
 export default (state = initialState, action) => {
@@ -25,6 +27,7 @@ export default (state = initialState, action) => {
         ...state,
         loading: true,
         endOfPage: false,
+        refClose: false,
       };
 
     case FETCH_ADDITIONAL_POSTS_LOADING:
@@ -39,6 +42,13 @@ export default (state = initialState, action) => {
         ...state,
         miniLoading: false,
         endOfPage: true,
+        refClose: true,
+      };
+
+    case CLOSE_EOP_SNACKBAR:
+      return {
+        ...state,
+        endOfPage: false,
       };
 
     case FETCH_TOP_POSTS:

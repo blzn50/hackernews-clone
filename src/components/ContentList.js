@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
-import { fetchPosts, fetchAdditionalPosts, endFetchLoading } from '../actions';
+import { fetchPosts, fetchAdditionalPosts, endFetchLoading, endEOP } from '../actions';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -40,6 +40,7 @@ const ContentList = () => {
   const loading = useSelector((state) => state.posts.loading);
   const miniLoading = useSelector((state) => state.posts.miniLoading);
   const endOfPage = useSelector((state) => state.posts.endOfPage);
+  const refClose = useSelector((state) => state.posts.refClose);
   const contents = useSelector((state) => state.posts.postIDs);
   const sliced = useSelector((state) => state.posts.posts);
   const error = useSelector((state) => state.posts.error);
@@ -100,16 +101,14 @@ const ContentList = () => {
           {sliced.map((c) => (
             <Content key={c.id} content={c} />
           ))}
-          <div ref={ref} className={clsx(classes.refContainer, endOfPage && classes.refLoaderHide)}>
-            {/* <Loading type={'additional-dummy'}></Loading> */}
-            {/* <Loading type={'additional-dummy'}></Loading> */}
+          <div ref={ref} className={clsx(classes.refContainer, refClose && classes.refLoaderHide)}>
             {miniLoading ? <Loading type={'additional-dummy'}></Loading> : ''}
           </div>
           <Snackbar
             open={endOfPage}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             autoHideDuration={2500}
-            // onClose={() => (endOfPage = false)}
+            onClose={() => dispatch(endEOP())}
             TransitionComponent={(props) => <Slide {...props} />}
           >
             <Alert elevation={6} variant="filled" severity="info">
