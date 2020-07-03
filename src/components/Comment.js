@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '16px 0',
   },
   caption: {
-    fontSize: '0.67rem',
+    fontSize: '0.68rem',
     color: '#747474',
   },
   span: {
@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   commentText: {
-    fontSize: '0.865rem',
     '& p': {
       margin: '8px 0',
       lineHeight: '1.28',

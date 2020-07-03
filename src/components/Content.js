@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
       flex: 1,
     },
     [theme.breakpoints.down('sm')]: {
-      padding: '1rem',
+      padding: '0.85rem',
     },
   },
   titleSection: {

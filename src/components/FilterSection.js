@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   mobileFilter: {
     padding: 0,
-    paddingRight: 10,
+    paddingRight: 14,
     marginLeft: theme.spacing(2),
     backgroundColor: theme.palette.grey[200],
     width: 'auto',
@@ -61,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
   dropdownMenuItem: {
     paddingTop: 0,
     paddingBottom: 0,
+    paddingRight: theme.spacing(4),
     '& .MuiListItemIcon-root, & .MuiListItemText-primary': {
       fontWeight: 500,
     },
