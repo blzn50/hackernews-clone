@@ -15,6 +15,6 @@ A hackernews clone implemented with reddit style browsing.
   - Top
   - Best
   - New
-- Pagination with the use of intersection observer API to simulate the infinite scrolling experience
+- Pagination with the use of Intersection Observer web API to simulate the infinite scrolling experience
 - Can navigate to individual story and read the comments
 - Mobile responsive
