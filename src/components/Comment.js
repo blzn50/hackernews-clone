@@ -19,14 +19,16 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   commentText: {
-    '& p': {
-      margin: '8px 0',
-      lineHeight: '1.28',
-    },
+    margin: '8px 0',
+    lineHeight: '1.3',
   },
   innerComment: {
     paddingLeft: theme.spacing(3),
     borderLeft: '2px solid #beb9b9',
+    [theme.breakpoints.down('xs')]: {
+      paddingLeft: 14,
+      borderLeft: '1px solid #dad4d4',
+    },
   },
 }));
 
