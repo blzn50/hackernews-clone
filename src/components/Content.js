@@ -16,6 +16,9 @@ const useStyles = makeStyles((theme) => ({
   card: {
     display: 'flex',
     borderRadius: 0,
+    [theme.breakpoints.down('sm')]: {
+      borderBottom: '0.15rem solid #dcdcdc',
+    },
   },
   scoreBigScreen: {
     display: 'none',
