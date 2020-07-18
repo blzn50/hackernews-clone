@@ -95,6 +95,12 @@ const ContentPage = () => {
     dispatch(fetchSinglePost(id));
   }, [dispatch, id]);
 
+  useEffect(() => {
+    if (post) {
+      document.title = post.title;
+    }
+  }, [post]);
+
   return (
     <div>
       {post ? (

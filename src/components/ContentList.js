@@ -30,8 +30,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const contentsPerPage = 12;
-
 const ContentList = () => {
   const classes = useStyles();
   const loading = useSelector((state) => state.posts.loading);
@@ -45,6 +43,7 @@ const ContentList = () => {
 
   const [prevY, setPrevY] = useState(null);
   const [firstValue, setFirstValue] = useState(null);
+  console.log('firstValue: ', firstValue);
 
   const [ref, entry] = useIntersect({});
 
@@ -53,9 +52,9 @@ const ContentList = () => {
     setPrevY(0);
 
     (() => {
-      const slicedContents = contents.slice(0, contentsPerPage);
+      const slicedContents = contents.slice(0, Number(process.env.REACT_APP_ITEM_PER_PAGE));
       dispatch(fetchPosts(slicedContents));
-      setFirstValue((f) => f + 13);
+      setFirstValue((f) => f + Number(process.env.REACT_APP_ITEM_PER_PAGE) + 1);
     })();
   }, [dispatch, contents]);
 
@@ -69,9 +68,12 @@ const ContentList = () => {
             dispatch(endFetchLoading());
           } else {
             let tempVal = firstValue;
-            const additionalSlicedContents = contents.slice(tempVal, tempVal + contentsPerPage);
+            const additionalSlicedContents = contents.slice(
+              tempVal,
+              tempVal + Number(process.env.REACT_APP_ITEM_PER_PAGE)
+            );
             dispatch(fetchAdditionalPosts(additionalSlicedContents));
-            setFirstValue((f) => f + contentsPerPage);
+            setFirstValue((f) => f + Number(process.env.REACT_APP_ITEM_PER_PAGE));
           }
         }
         setPrevY(y);

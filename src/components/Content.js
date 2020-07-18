@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'hidden',
   },
   title: {
-    fontSize: '0.9rem',
+    fontSize: '0.95rem',
     display: 'inline',
     fontWeight: 500,
     color: 'inherit',
@@ -156,10 +156,15 @@ const Content = ({ content }) => {
           </Hidden>
           <div className={classes.titleSection}>
             <Typography variant="body2">
-              <Link className={classes.title} to={`/item/${content.id}`} component={RouterLink}>
+              <Link
+                className={classes.title}
+                to={`/item/${content.id}`}
+                target="__blank"
+                component={RouterLink}
+              >
                 {content.title}
               </Link>
-              {content.type === 'story' ? (
+              {content.url ? (
                 <Link
                   href={content.url}
                   target="_blank"
