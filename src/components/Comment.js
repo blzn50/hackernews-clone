@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
   commentText: {
     margin: '8px 0',
     lineHeight: '1.3',
+    wordWrap: 'break-word',
   },
   innerComment: {
     paddingLeft: theme.spacing(3),

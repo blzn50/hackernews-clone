@@ -43,7 +43,6 @@ const ContentList = () => {
 
   const [prevY, setPrevY] = useState(null);
   const [firstValue, setFirstValue] = useState(null);
-  console.log('firstValue: ', firstValue);
 
   const [ref, entry] = useIntersect({});
 
