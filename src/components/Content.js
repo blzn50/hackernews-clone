@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
       flex: 1,
     },
     [theme.breakpoints.down('sm')]: {
-      padding: '0.85rem',
+      padding: '0.55rem 0.85rem',
     },
   },
   titleSection: {
@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
   insideContents: {
     padding: '0 !important',
+    lineHeight: 1.6,
   },
   mobileScoreComments: {
     fontSize: '0.8rem',
