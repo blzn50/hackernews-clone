@@ -119,13 +119,7 @@ const ContentPage = () => {
               </Typography>
               <Typography variant="h6" className={classes.title}>
                 {post.url ? (
-                  <Link
-                    underline="none"
-                    color="inherit"
-                    href={post.url}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
+                  <Link underline="none" color="inherit" href={post.url}>
                     <span>{post.title}</span>
                     <OpenInNewRoundedIcon fontSize="small" />
                   </Link>

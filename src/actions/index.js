@@ -63,8 +63,8 @@ export const fetchPostIDs = (type = 'topstories') => {
 
       dispatch({
         type: FETCH_POST_IDS,
-        // payload: postIDs.data.slice(0, 30),
-        payload: postIDs.data,
+        payload: postIDs.data.slice(0, 25),
+        // payload: postIDs.data,
         mode: switchMode(type),
       });
     } catch (error) {

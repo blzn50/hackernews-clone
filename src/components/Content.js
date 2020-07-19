@@ -162,7 +162,7 @@ const Content = ({ content }) => {
               <Link
                 className={classes.title}
                 to={`/item/${content.id}`}
-                target="__blank"
+                target="_blank"
                 component={RouterLink}
               >
                 {content.title}
@@ -192,6 +192,7 @@ const Content = ({ content }) => {
                   <span className={classes.middot}></span>
                   <Link
                     to={`/item/${content.id}`}
+                    target="_blank"
                     component={RouterLink}
                     className={classes.commentLink}
                   >
@@ -214,6 +215,7 @@ const Content = ({ content }) => {
         <div>
           <Hidden xsDown>
             <Button
+              target="_blank"
               to={`/item/${content.id}`}
               className={classes.commentBigScreen}
               component={RouterLink}
