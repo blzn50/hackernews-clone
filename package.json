@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "author": "Naren Lama",
+  "license": "MIT",
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
