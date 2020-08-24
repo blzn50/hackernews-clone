@@ -142,7 +142,7 @@ const ContentPage = () => {
             </div>
             <CardContent>
               {post.kids ? (
-                <Comment comments={post.kids} />
+                post.kids.map((kid) => <Comment comment={kid} key={kid.id} />)
               ) : (
                 <Typography variant="h6" className={classes.emptyComments}>
                   <ForumIcon /> No Comments Yet
