@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Header from './components/Header';
-import Home from './components/Home';
-import ContentPage from './components/ContentPage';
+const Home = lazy(() => import('./components/Home'));
+const ContentPage = lazy(() => import('./components/ContentPage'));
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,15 +21,16 @@ function App() {
       <Grid item>
         <Header />
       </Grid>
-
-      <Switch>
-        <Route path="/item/:id">
-          <ContentPage />
-        </Route>
-        <Route path="/">
-          <Home />
-        </Route>
-      </Switch>
+      <Suspense fallback={<div style={{ background: '#d5d5d5', height: '93vh' }}></div>}>
+        <Switch>
+          <Route path="/item/:id">
+            <ContentPage />
+          </Route>
+          <Route path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Suspense>
     </Grid>
   );
 }

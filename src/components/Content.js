@@ -163,7 +163,7 @@ const Content = ({ content }) => {
               <Link
                 className={classes.title}
                 to={`/item/${content.id}`}
-                target="_blank"
+                // target="_blank"
                 component={RouterLink}
               >
                 {content.title}
@@ -216,7 +216,7 @@ const Content = ({ content }) => {
         <div>
           <Hidden xsDown>
             <Button
-              target="_blank"
+              // target="_blank"
               to={`/item/${content.id}`}
               className={classes.commentBigScreen}
               component={RouterLink}
