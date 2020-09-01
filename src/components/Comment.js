@@ -10,7 +10,7 @@ import TimeTooltip from './TimeTooltip';
 
 const useStyles = makeStyles((theme) => ({
   commentDiv: {
-    margin: '16px 0',
+    margin: '16px 0 0',
   },
   caption: {
     fontSize: '0.68rem',
@@ -25,14 +25,13 @@ const useStyles = makeStyles((theme) => ({
   collapse: {
     '& > span': {
       padding: '0',
-      margin: '0 12px',
+      margin: '0 10px',
     },
     '& .MuiSvgIcon-root': {
       marginBottom: 2,
     },
   },
   commentText: {
-    margin: '8px 0',
     lineHeight: '1.3',
     wordWrap: 'break-word',
   },
@@ -52,12 +51,6 @@ const Comment = ({ comment }) => {
 
   const handleCollapse = () => {
     setOpen(!open);
-    // if (index.includes(id)) {
-    //   setIndex(index.filter((i) => i !== id));
-    // } else {
-    //   setIndex([...index, id]);
-    // }
-    // }
   };
 
   return (
@@ -71,11 +64,11 @@ const Comment = ({ comment }) => {
         <span onClick={handleCollapse} className={classes.collapse}>
           {open ? (
             <IconButton component="span">
-              <ExpandMoreIcon fontSize="small" />
+              <ExpandLessIcon fontSize="small" />
             </IconButton>
           ) : (
             <IconButton component="span">
-              <ExpandLessIcon fontSize="small" />
+              <ExpandMoreIcon fontSize="small" />
             </IconButton>
           )}
         </span>
